@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -85,24 +88,39 @@ class _NewTransactionState extends State<NewTransaction> {
                       child: Text(
                           'Picked Date: ${DateFormat.yMd().format(_selectedDate)}'),
                     ),
-                    TextButton(
-                      onPressed: _presentDatePicker,
-                      child: Text(
-                        'Choose Date',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                    Platform.isIOS
+                        ? CupertinoButton(
+                            child: Text(
+                              'Choose Date',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            onPressed: _presentDatePicker,
+                          )
+                        : TextButton(
+                            onPressed: _presentDatePicker,
+                            child: Text(
+                              'Choose Date',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
                   ],
                 ),
               ),
-              ElevatedButton(
-                style: TextButton.styleFrom(primary: Colors.purple),
-                onPressed: _submitTransaction,
-                child: Text(
-                  'Add Transaction',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
+              Platform.isIOS
+                  ? CupertinoButton(
+                      child: Text(
+                        'Add Transaction',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: _submitTransaction)
+                  : ElevatedButton(
+                      style: TextButton.styleFrom(primary: Colors.purple),
+                      onPressed: _submitTransaction,
+                      child: Text(
+                        'Add Transaction',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
             ],
           ),
         ),
